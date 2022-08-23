@@ -1,0 +1,122 @@
+Question 1
+
+mysql> create table user_master(
+    -> id int NOT NULL,
+    -> name VARCHAR(50) NOT NULL ,
+    -> contact_number BIGINT NOT NULL,
+    -> email_id VARCHAR(50) NOT NULL,
+    -> blood_group VARCHAR(5) ,
+    -> city_id int NOT NULL,
+    -> added_date DATE NOT NULL,
+    -> PRIMARY KEY (id),
+    -> FOREIGN KEY (city_id) REFERENCES city_master(id)
+    -> );
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> create table city_master(
+    -> id int NOT NULL,
+    -> city_name VARCHAR(50) NOT NULL ,
+    -> city_state VARCHAR(50) NOT NULL,
+    -> added_date DATE NOT NULL,
+    -> PRIMARY KEY(id));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> Describe user_master;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| id             | int         | NO   | PRI | NULL    |       |
+| name           | varchar(50) | NO   |     | NULL    |       |
+| contact_number | bigint      | NO   |     | NULL    |       |
+| email_id       | varchar(50) | NO   |     | NULL    |       |
+| blood_group    | varchar(5)  | YES  |     | NULL    |       |
+| city_id        | int         | NO   | MUL | NULL    |       |
+| added_date     | date        | NO   |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> describe city_master;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| id         | int         | NO   | PRI | NULL    |       |
+| city_name  | varchar(50) | NO   |     | NULL    |       |
+| city_state | varchar(50) | NO   |     | NULL    |       |
+| added_date | date        | NO   |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+
+Question. 2
+
+ INSERT INTO user_master
+ values
+ (01,"Arpit",9575713880,"arpit@gmail.com","B+",1,"2022-08-22"),
+ (02,"Abhay",6575713880,"abhay1@gmail.com","B+",1,"2022-08-22"),
+ (03,"Abhay",7895713880,"abhay@gmail.com","A+",1,"2021-08-11"),
+ (04,"Arti",7895799880,"arti@gmail.com","B+",1,"2021-08-10"),
+ (05,"Bhavesh",8456279548,"bhavesh@gmail.com","AB+",1,"2020-09-09"),
+ (06,"Bharti",8456279568,"bharti@gmail.com","A+",2,"2020-09-09"),
+ (07,"Bhart",8456271568,"bhart@gmail.com","A+",3,"2020-07-09"),
+ (08,"Bhavna",8456271560,"bhavna@gmail.com","O-",1,"2020-07-17"),
+ (09,"Abhisekh",8126271560,"abhisekh@gmail.com","B-",2,"2022-07-17"),
+ (10,"Aryan",7126271560,"aryan@gmail.com","B-",2,"2022-07-17"),
+ (11,"Aryan",7126271660,"aryan1@gmail.com","O-",2,"2021-07-17"),
+ (12,"Ayush",9126271660,"ayush@gmail.com","A-",3,"2021-09-17"),
+ (13,"Ayushi",9126271260,"ayushi@gmail.com","B-",3,"2021-11-17"),
+ (14,"Akash",9126271340,"akash@gmail.com","B-",3,"2021-11-22"),
+ (15,"Kunal",9126279040,"kunal@gmail.com","B+",3,"2020-11-22"),
+ (16,"Rajesh",7726279040,"rajesh@gmail.com","B+",3,"2017-11-22"),
+ (17,"Rakesh",7724579040,"rakesh@gmail.com","B+",5,"2022-11-22"),
+ (18,"Arjun",7104579040,"arjun@gmail.com","O+",5,"2019-06-21"),
+ (19,"Karan",9904579040,"karan@gmail.com","O+",5,"2019-06-21"),
+ (20,"Pooja",9104579040,"pooja@gmail.com","O+",4,"2019-06-21"),
+ (21,"Akshay",9100179040,"akshay@gmail.com","AB+",4,"2019-06-21"),
+ (22,"Laxman",9900179040,"laxman@gmail.com","B+",4,"2018-06-21"),
+ (23,"Gourav",7900179040,"gourav@gmail.com","A+",3,"2018-06-21"),
+ (24,"Navneet",7789179040,"navneet@gmail.com","O-",3,"2019-06-21"),
+ (25,"Poonam",9789179040,"poonam@gmail.com","B+",3,"2017-03-21"),
+ (26,"Pranav",8889179040,"pranav@gmail.com","B+",4,"2020-03-21"),
+ (27,"Prakash",8089179040,"prakash@gmail.com","B+",4,"2020-09-21"),
+ (28,"Piyush",9576486237,"piyush@yahoo.com","A-",1,2011-07-11"),
+ (28,"Aayesha",7890013880,"aayesha@gmail.com","A+",5,"2020-08-11"),
+ (29,"David",9440013880,"david@gmail.com","B+",5,"2020-12-22"),
+ (30,"John",9040013880,"john@gmail.com","B+",5,"2022-12-22");
+
+ INSERT INTO city_master
+ values
+ (1,"Bhopal","MP","2022-08-22"),
+ (2,"Riva","UP","2021-08-22"),
+ (3,"Pune","Maharastra","2021-08-22"),
+ (4,"Mumbai","Maharastra","2021-08-22"),
+ (5,"Bangalore","Karnataka","2021-08-22");
+
+
+
+Question. 3
+
+
+mysql> select *
+    -> from user_master
+    -> LEFT JOIN city_master
+    -> ON user_master.city_id = city_master.id
+    -> where user_master.name LIKE "a%"
+    -> ORDER BY user_master.id
+    -> LIMIT 1,2;
+
+
+Question. 4
+
+
+mysql> update user_master
+    -> set
+    -> name = CONCAT("updated_",name)
+    -> where id%2 = 0;
+
+
+Question. 5
+
+mysql> DELETE
+    -> FROM user_master
+    -> WHERE email_id
+    -> LIKE "%Gmail%";
