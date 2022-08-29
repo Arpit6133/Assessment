@@ -1,24 +1,24 @@
 Question 1
 
-mysql> create table user_master(
-    -> id int NOT NULL,
-    -> name VARCHAR(50) NOT NULL ,
-    -> contact_number BIGINT NOT NULL,
-    -> email_id VARCHAR(50) NOT NULL,
-    -> blood_group VARCHAR(5) ,
-    -> city_id int NOT NULL,
-    -> added_date DATE NOT NULL,
-    -> PRIMARY KEY (id),
-    -> FOREIGN KEY (city_id) REFERENCES city_master(id)
-    -> );
+create table user_master(
+id int auto_increment,
+name VARCHAR(50) NOT NULL ,
+contact_number BIGINT NOT NULL,
+email_id VARCHAR(50) NOT NULL,
+blood_group VARCHAR(5) ,
+city_id int NOT NULL,
+added_date DATE NOT NULL,
+PRIMARY KEY (id),
+FOREIGN KEY (city_id) REFERENCES city_master(id)
+);
 Query OK, 0 rows affected (0.13 sec)
 
-mysql> create table city_master(
-    -> id int NOT NULL,
-    -> city_name VARCHAR(50) NOT NULL ,
-    -> city_state VARCHAR(50) NOT NULL,
-    -> added_date DATE NOT NULL,
-    -> PRIMARY KEY(id));
+create table city_master(
+id int auto_increment,
+city_name VARCHAR(50) NOT NULL ,
+city_state VARCHAR(50) NOT NULL,
+added_date DATE NOT NULL,
+PRIMARY KEY(id));
 Query OK, 0 rows affected (0.07 sec)
 
 mysql> Describe user_master;
@@ -78,8 +78,7 @@ Question. 2
  (25,"Poonam",9789179040,"poonam@gmail.com","B+",3,"2017-03-21"),
  (26,"Pranav",8889179040,"pranav@gmail.com","B+",4,"2020-03-21"),
  (27,"Prakash",8089179040,"prakash@gmail.com","B+",4,"2020-09-21"),
- (28,"Piyush",9576486237,"piyush@yahoo.com","A-",1,2011-07-11"),
- (28,"Aayesha",7890013880,"aayesha@gmail.com","A+",5,"2020-08-11"),
+ (28,"Piyush",9576486237,"piyush@yahoo.com","A-",1,"2011-07-11"),
  (29,"David",9440013880,"david@gmail.com","B+",5,"2020-12-22"),
  (30,"John",9040013880,"john@gmail.com","B+",5,"2022-12-22");
 

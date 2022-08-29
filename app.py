@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, render_template
+import json
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_restful import Api, Resource
@@ -14,11 +15,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 
-@app.route('/display_users/<int:page_num>')
-def display_users(page_num):
-    display_all_users = user_master.query.paginate(per_page=10, page=page_num, error_out=True)
-    return render_template('index.html',display_users = display_all_users)
 
+
+
+    
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
@@ -28,7 +28,7 @@ api = Api(app)
 class user_master(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
-    contact_number = db.Column(db.String(10))
+    contact_number = db.Column(db.Integer)
     email_id = db.Column(db.String(50))
     blood_group = db.Column(db.String(2))
     city_id = db.Column(db.Integer)
@@ -70,7 +70,11 @@ cities_master_schema = city_masterSchema(many=True)
 class user_masterListResource(Resource):
     def get(self):
         users_master = user_master.query.all()
-        return users_master_schema.dump(users_master)
+        rows = users_master_schema.dump(users_master)
+        d = {"total": len(rows),
+            "totalNotFiltered":len(rows),
+            "rows":rows}
+        return d
 
     def post(self):
         new_user_master = user_master(
@@ -124,10 +128,10 @@ class user_masterResource(Resource):
         return user_master_schema.dump(new_user_master)
 
     def put(self, user_master_id, contact_number):
-        user_master = user_master.query.get_or_404(user_master_id)
+        user_master_contact = user_master.query.get_or_404(user_master_id)
 
         if 'contact_number' in request.json:
-            user_master.contact_number = request.json['contact_number']
+            user_master_contact.contact_number = request.json['contact_number']
 
         db.session.commit()
 
@@ -152,6 +156,21 @@ api.add_resource(user_masterResource, '/user_master/<int:user_master_id>/')
 api.add_resource(user_masterListResource, '/users_master/')
 api.add_resource(city_masterResource, '/city_master/add')
 api.add_resource(city_masterListResource, '/cities_master/')
+
+
+@app.route('/')
+def display_users():
+    
+    return render_template('index.html')
+
+
+records = user_master.query.all()
+rows = users_master_schema.dump(records)
+
+total = len(records)
+dict_user = {"total":total,
+            "totalNotFiltered":total,
+            "rows":rows}
 
 # Run Server
 if __name__ == '__main__':
